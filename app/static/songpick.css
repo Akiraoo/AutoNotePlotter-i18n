@@ -1,0 +1,35 @@
+/* 曲を選ぶ窓（js/songpick.js）と上の列の曲名のボタン。窓の枠は app.css の .modal・.dlg・色は :root の --accent 等 */
+
+/* 上の列の曲名（前の選びと同じ決まった幅・長い名前は省略・全部は title） */
+#top .songBtn{width:14rem;display:inline-flex;align-items:center;gap:.35rem;text-align:left}
+#top .songBtn .songBtnName{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#top .songBtn .songBtnCaret{color:var(--textmute);font-size:.8rem}
+#top .songBtn.arc .songBtnName{color:var(--textmute);font-style:italic}   /* 開いている曲をアーカイブした */
+
+.sp .dlg{width:min(46rem,94vw);height:min(44rem,84vh)}
+.sp .dlgHead{gap:.8rem}
+.sp .dlgHead .sub{margin-right:auto}
+.spBar{display:flex;flex-wrap:wrap;gap:.5rem .7rem;align-items:center;padding:.6rem 1.1rem .45rem}
+.spBar input[type=search]{flex:1 1 14rem;min-width:10rem;background:var(--panel2);border:1px solid var(--outline);border-radius:.4rem;padding:.3rem .6rem}
+.spBar input[type=search]:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.spSort{display:flex;gap:.25rem}
+.spSort button{padding:.15rem .6rem;font-size:.92rem}
+.spArcCk{display:flex;align-items:center;gap:.3rem;font-size:.92rem;color:var(--textdim);cursor:pointer;white-space:nowrap}
+.sp.arcView .spArcCk{color:var(--accent-text);font-weight:700}
+
+.spList{flex:1;min-height:0;overflow:auto;padding:.2rem .6rem .4rem;display:flex;flex-direction:column;gap:.1rem}
+.spRow{display:grid;grid-template-columns:2.9rem minmax(0,1fr) auto auto;gap:.7rem;align-items:center;padding:.3rem .55rem;border-radius:.45rem;cursor:pointer}
+.spRow:hover{background:var(--widget)}
+.spRow.sel{background:var(--accent-soft);box-shadow:inset .22rem 0 0 var(--accent)}
+.spCover{width:2.9rem;height:2.9rem;border-radius:.3rem;background:var(--panel2);overflow:hidden;display:block}   /* カバーが無い曲は空の枠 */
+.spCover img{width:100%;height:100%;object-fit:cover;display:block}
+.spText{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.spTitle{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spRow.cur .spTitle{color:var(--accent-text)}
+.spCur{font-weight:400;font-size:.78rem;color:var(--on-accent);background:var(--accent);border-radius:.3rem;padding:0 .35rem;margin-left:.45rem;vertical-align:.08em}
+.spArtist{color:var(--textdim);font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spDate{color:var(--textmute);font-size:.86rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.spArcBtn{padding:.05rem .55rem;font-size:.86rem;visibility:hidden}
+.spRow:hover .spArcBtn,.spRow.sel .spArcBtn,.sp.arcView .spArcBtn{visibility:visible}
+.spEmpty{display:flex;flex-direction:column;gap:.3rem;padding:1.5rem 1rem;color:var(--textdim);text-align:center}
+.spFoot{padding:.45rem 1.1rem .6rem;border-top:1px solid var(--outline)}

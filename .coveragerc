@@ -1,0 +1,19 @@
+# カバレッジ（テストでどのコードを通ったか）を測る時だけ読む設定。普段のテスト（--cov なし）はこの設定を読まない＝遅くならない。
+# 測り方（並べた働き手の分も、テストが起こす子のプロセス＝compose・展開の compose・取り込み等の分も入る）:
+#   .venv/Scripts/python.exe -m pytest --cov --cov-report=html:<出す場所> --cov-report=term
+# 控え（.coverage*）の置き場所は環境変数 COVERAGE_FILE で変えられる（既定はリポジトリの直下・git の管理外）。
+# 子のプロセスは coverage の patch = subprocess（環境変数で設定を渡し、.venv の a1_coverage.pth が子の起動の時に測り始める。
+# 環境変数が無ければ .pth は何もしない）。子は作業の場所（cwd）をリポジトリの直下にして起こす物だけ測れる（source が相対の場所）。
+[run]
+source =
+    automap
+    app
+    tools
+patch = subprocess
+parallel = true
+
+[report]
+# NLM から写した曲の解析（手を加えない写し）は別に数える: --cov-report の後に coverage report --include="automap/song_analysis/*"
+omit =
+    automap/song_analysis/*
+skip_empty = true

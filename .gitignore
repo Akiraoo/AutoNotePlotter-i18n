@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+.pytest_cache/
+# カバレッジの控えと報告（.coveragerc・測る時だけ）
+.coverage
+.coverage.*
+htmlcov/
+/out/
+CLAUDE.local.md
+# 曲・譜面（再配布になる・個人の物）
+*.mp3
+*.ogg
+*.egg
+*.wav
+*.flac
+*.nlmf
+!tests/fixtures/*.nlmf
+.venv-sep/
+/cache/
+# 審査の指摘の実物（Discord から集めた他人の文章・リポジトリに入れない）
+/samples/discord/
+
+# アプリの環境ごとの設定（NLM の場所など）
+app/config.local.json

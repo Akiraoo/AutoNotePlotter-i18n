@@ -1,0 +1,23 @@
+/* 左下の欄の「付けた指示」と「リプレイ」の切り替え・埋め込みのリプレイ（js/replaypane.js・docs/アプリ仕様.md 26 節） */
+.lpHead{display:flex;align-items:center;gap:.4rem;margin-bottom:.35rem}
+.lpTabs{display:flex;gap:.25rem}
+.lpTabs button{padding:.1rem .65rem;font-weight:700}
+.lpTabs button.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.lpTabs button.on .sub{color:inherit;opacity:.85}
+#listPane.rp{display:flex;flex-direction:column;overflow:hidden;padding-bottom:.45rem}
+#listPane.rp .lockCover{display:none}   /* 派生を見ている間もリプレイは見られる（見るだけ・指示の一覧の札は一覧に戻すと出る） */
+.rpPane{display:flex;flex-direction:column;flex:1;min-height:0;gap:.3rem}
+.rpPane[hidden]{display:none}
+.rpBar{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap}
+.rpBar select{flex:1 1 12rem;min-width:0}
+.rpBar button{padding:.1rem .55rem}
+.rpSync{white-space:nowrap}
+.rpMsg{padding:.3rem .55rem;border-radius:.4rem;background:var(--accent-soft);font-size:.9rem}
+.rpMsg.bad{background:color-mix(in srgb,#e03131 25%,transparent)}
+.rpBox{flex:1;min-height:6rem;position:relative;background:#000;border-radius:.4rem;overflow:hidden}
+.rpFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.rpEmpty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;text-align:center;background:var(--panel)}
+.rpEmpty[hidden]{display:none}
+.rpEmpty.bad{color:#ff8787}
+#listPane.rp .wioOps{display:none}   /* 「読み込む…」「全部外す」は付けた指示の一覧の時だけ（js/workio.js） */
+.rpSync.on{color:var(--accent-text)}   /* つないで同期している間 */

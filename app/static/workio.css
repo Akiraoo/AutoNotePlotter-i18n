@@ -1,0 +1,29 @@
+/* 付けた指示の読み込み・全部外す（js/workio.js）の見た目 */
+#listPane .cardHead{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.wioOps{margin-left:auto;display:flex;gap:.3rem}
+.wioOps button{padding:.05rem .5rem;font-size:.86rem;font-weight:400}
+.wioModal{z-index:56}
+.wioDlg{width:min(62rem,94vw)}
+.wioDlg .dlgHead{gap:1rem}
+.wioDlg .dlgHead .sub{margin-right:auto}
+.wioDlg .ck{display:flex;align-items:center;gap:.35rem;font-size:.95rem;color:var(--textdim);cursor:pointer;margin:.25rem 0}
+.wioSrcs{max-height:24vh;overflow:auto;border:1px solid var(--outline);border-radius:.5rem}
+.wioTbl{border-collapse:collapse;width:100%;font-size:.9rem;margin:0 !important}
+.wioTbl th,.wioTbl td{padding:.22rem .45rem;border-bottom:1px solid var(--outline);text-align:left;white-space:nowrap}
+.wioTbl td:nth-child(5){white-space:normal;color:var(--textmute);font-size:.86rem}
+.wioTbl .num{text-align:right;font-variant-numeric:tabular-nums}
+.wioTbl tr.wioSrc{cursor:pointer}
+.wioTbl tr.wioSrc:hover td{background:var(--widget)}
+.wioTbl tr.sel td{background:color-mix(in srgb,var(--accent) 18%,transparent)}
+.wioTbl tr.sel td:first-child{box-shadow:inset .25rem 0 0 var(--accent);font-weight:700}
+.wioHead{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.7rem 0 .3rem}
+.wioHead button{padding:.05rem .5rem;font-size:.86rem}
+.wioItems{max-height:30vh;overflow:auto}
+.wioItem{display:flex;align-items:flex-start;gap:.45rem;border:1px solid var(--outline);border-radius:.5rem;padding:.3rem .5rem;margin:.25rem 0;cursor:pointer}
+.wioItem input{margin-top:.2rem}
+.wioItem .when{white-space:nowrap;min-width:12rem}
+.wioItem.dup{opacity:.55}
+.wioOpts{display:flex;flex-wrap:wrap;gap:0 1.6rem;margin:.5rem 0;border-top:1px solid var(--outline);padding-top:.4rem}
+.wioNote{font-size:.9rem;color:var(--textdim);margin:.3rem 0}
+.wioNote.warn{color:var(--accent2)}
+#wioLoadBody .bad{color:#ff6b6b}

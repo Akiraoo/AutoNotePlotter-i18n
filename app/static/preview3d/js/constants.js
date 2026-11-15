@@ -1,0 +1,33 @@
+/**
+ * Shared layout / chart constants (mirrors runtime defaults).
+ * Runtime closure still owns live mutable copies where needed.
+ */
+export const VERSION = 'nlm-modular-1';   // 内部構成の識別子（開発用）。利用者向けの版番号は下の APP_VERSION
+
+/** 利用者向けの版番号（GitHubのタグ/リリース名と一致させる）。ここが唯一の定義元：
+ *  アプリ上部バーの表示（main.js）と、exe版のウィンドウタイトル（app.py がこの行を読む）の両方に使う。
+ *  リリースのたびにここだけ書き換える。 */
+export const APP_VERSION = 'v2.0.0-oz';
+
+/** Grid / timeline spacing (editor 3D + NLE). */
+export const LANE = 0.62;
+export const LAYER = 0.62;
+export const BASE_Y = 0.7;
+export const ZPB = 2.52; // Z per beat
+
+/** Default note / laser colors. */
+export const DEFAULT_NOTE_RED = 0xff274d;
+export const DEFAULT_NOTE_BLUE = 0x3092ff;
+export const DEFAULT_LASER_RED = 0xff274d;
+export const DEFAULT_LASER_BLUE = 0x3092ff;
+
+/** Cut direction icons / vectors (Beat Saber). */
+export const DIRICON = {0:'↑',1:'↓',2:'←',3:'→',4:'↖',5:'↗',6:'↙',7:'↘',8:'•'};
+export const DIRV = {0:[0,1],1:[0,-1],2:[-1,0],3:[1,0],4:[-1,1],5:[1,1],6:[-1,-1],7:[1,-1],8:[0,0]};
+export const ROT = [1,6,2,4,0,5,3,7,8];
+export const DIR_ANGLE = {0:0,5:45,3:90,7:135,1:180,6:225,2:270,4:315};
+
+export const FONT = '"M PLUS Rounded 1c",sans-serif';
+
+/** Difficulty keys used in projDiffs / export. */
+export const DIFF_KEYS = ['Easy', 'Normal', 'Hard', 'Expert', 'ExpertPlus'];

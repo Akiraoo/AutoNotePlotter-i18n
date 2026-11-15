@@ -1,0 +1,56 @@
+/* 準備と設定（js/setup.js）の窓。窓の枠は app.css の .modal・.dlg を使う */
+.su{z-index:80}
+.su .dlg{width:min(60rem,95vw);max-height:92vh}
+.su .dlgHead{gap:.8rem}
+.su .dlgHead .sub{margin-right:auto}
+.su [hidden]{display:none !important}
+.su p{margin:.3rem 0;line-height:1.55}
+.suAbout{background:var(--panel2);border-radius:.6rem;padding:.2rem .9rem .5rem;margin:.5rem 0}
+.suAbout h3{margin-top:.5rem}
+.suAbout ul{margin:.2rem 0 .3rem 1.3rem;padding:0;line-height:1.55}
+.suSec{border-top:1px solid var(--outline);padding:.2rem 0 .5rem}
+.suMark{display:inline-block;width:1.4rem;text-align:center;font-weight:800;margin-right:.2rem}
+.suMark.ok{color:var(--green)}
+.suMark.bad{color:var(--accent2)}
+.suRow{display:flex;align-items:center;gap:.5rem;margin:.35rem 0}
+.suRow input{flex:1;min-width:10rem;background:var(--panel2);border:1px solid var(--outline);border-radius:.4rem;padding:.3rem .5rem;color:var(--text)}
+.suRow label{min-width:6rem;color:var(--textdim)}
+.suActs{justify-content:flex-end}
+.suActs .sub{margin-right:auto}
+.suMsg{font-size:.9rem;color:var(--textdim);min-height:1.2rem}
+.bad,.suMsg.bad{color:var(--accent2)}
+.suGpu{margin:.3rem 0;color:var(--textdim)}
+.suVariants{display:flex;gap:.6rem;flex-wrap:wrap;margin:.4rem 0}
+.suVar{display:flex;flex-direction:column;gap:.15rem;border:1px solid var(--outline);border-radius:.6rem;padding:.4rem .8rem .4rem 2rem;position:relative;cursor:pointer;flex:1 1 18rem}
+.suVar input{position:absolute;left:.6rem;top:.55rem}
+.suVar.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,transparent)}
+.suItems td.num,.suItems th.num{white-space:nowrap;text-align:right}
+.suItems .suSrc{font-size:.82rem;color:var(--textmute);word-break:break-all}
+.suNotice{background:var(--panel2);border-left:4px solid var(--accent);border-radius:.4rem;padding:.5rem .8rem;margin:.5rem 0;line-height:1.6}
+.suNotice.bad{border-left-color:var(--accent2)}
+.suNotice .sub{margin-top:.3rem}
+.suAlert{background:#f0a02022;border:1px solid var(--accent2);border-radius:.6rem;padding:.5rem .8rem;margin:.5rem 0;font-weight:600}
+.suRun{background:var(--panel2);border-radius:.6rem;padding:.6rem .8rem;margin:.4rem 0}
+.suRunLabel{font-weight:700;margin-bottom:.35rem}
+.suBar{height:.8rem;background:var(--widget);border-radius:.4rem;overflow:hidden}
+.suBar>div{height:100%;width:0;background:var(--accent);transition:width .4s}
+.suBar>div.busy{background:repeating-linear-gradient(45deg,var(--accent) 0 .6rem,var(--accent-text) .6rem 1.2rem)}
+.suFoot{display:flex;align-items:center;justify-content:flex-end;gap:.6rem;border-top:1px solid var(--outline);padding-top:.6rem;margin-top:.4rem}
+.suFoot .sub{margin-right:auto}
+#setupBtn.suWarn{background:var(--accent2);border-color:var(--accent2);color:#111;font-weight:700}
+#setupBtn.suRec{position:relative}
+#setupBtn .suDot{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--accent2);margin-left:.35rem;vertical-align:.12rem}
+.suMark.rec{color:var(--accent2)}
+.suUpd{border-radius:.6rem;padding:.4rem .8rem .5rem;margin:.4rem 0;line-height:1.55}
+.suUpd.recommended{background:var(--panel2);border-left:4px solid var(--accent2)}
+.suUpd.required,.suUpd.app{background:#f0a02022;border:1px solid var(--accent2)}
+.suUpdHead{font-weight:700;margin:.15rem 0 .2rem}
+.suUpd.required .suUpdHead,.suUpd.app .suUpdHead{color:var(--accent2)}
+.suUpdWhy{font-weight:600;margin:.2rem 0}
+.suUpdWhy .sub{font-weight:400;margin-left:.3rem}
+.suUpdTab{margin:.3rem 0}
+.suUpdTab td,.suUpdTab th{padding:.1rem .5rem .1rem 0}
+.suUpdTab tr.req td{color:var(--accent2);font-weight:600}
+.suMove{background:var(--panel2);border-radius:.6rem;padding:.4rem .8rem .5rem;margin:.4rem 0}
+.suMove .suNotice{background:var(--panel)}
+.su .ok{color:var(--green)}

@@ -1,0 +1,31 @@
+/* アプリの更新（js/update.js）の窓と右上の知らせ。窓の枠は app.css の .modal・.dlg を使う */
+.up{z-index:85}
+.up .dlg{width:min(42rem,94vw);max-height:86vh}
+.upCur{margin:.2rem 0 .4rem;color:var(--textdim)}
+.upBody p{margin:.4rem 0;line-height:1.6}
+.upBody .bad{color:var(--accent2)}
+.upOk{color:var(--green)}
+.upNote{background:var(--panel2);border-radius:.6rem;padding:.5rem .8rem}
+.upNotes{background:var(--panel2);border-radius:.6rem;padding:.3rem .9rem .5rem;margin:.4rem 0;max-height:40vh;overflow:auto}
+.upVer{font-weight:700;color:var(--accent2);margin-top:.4rem}
+.upNotes ul{margin:.15rem 0 .3rem 1.3rem;padding:0;line-height:1.55}
+.upHint{color:var(--textdim);font-size:.92rem}
+.upBar{height:.8rem;background:var(--widget);border-radius:.4rem;overflow:hidden;margin:.4rem 0}
+.upBar>div{height:100%;width:0;background:var(--accent);transition:width .3s}
+.upBar>div.busy{background:repeating-linear-gradient(45deg,var(--accent) 0 .6rem,var(--accent-text) .6rem 1.2rem)}
+.upFoot{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;border-top:1px solid var(--outline);padding-top:.6rem;margin-top:.6rem}
+.upAuto{display:flex;align-items:center;gap:.35rem;color:var(--textdim);font-size:.92rem}
+.upFoot #upMsg{margin-right:auto}
+.upFoot #upMsg.bad{color:var(--accent2)}
+.upBtns{display:flex;gap:.5rem;justify-content:flex-end}
+#updBtn{padding:.1rem .5rem;font-size:.85rem;color:var(--textmute)}
+#updBtn.upHas{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
+#updBtn.upUrgent{background:var(--accent2);border-color:var(--accent2);color:#111;font-weight:700}
+.upWarn{background:#f0a02022;border:1px solid var(--accent2);border-radius:.6rem;padding:.45rem .8rem;margin:.4rem 0;line-height:1.6;font-weight:600}
+.upWarn .sub{font-weight:400}
+.upNotice.upStrong{border:2px solid var(--accent2)}
+.upNotice.upStrong .upNoticeHead{color:var(--accent2)}
+.upNotice{position:fixed;right:1rem;z-index:75;display:none;width:min(26rem,90vw);background:var(--panel);border:1px solid var(--accent);
+  border-radius:.7rem;padding:.6rem .9rem;box-shadow:0 8px 28px #000b;line-height:1.55}
+.upNoticeHead{font-weight:700;margin-bottom:.15rem}
+.upNotice .upBtns{margin-top:.5rem}

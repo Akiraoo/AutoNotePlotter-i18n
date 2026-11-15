@@ -1,0 +1,7 @@
+*.bat text eol=crlf
+
+# Beat Saber への書き出しの正解（NLM が書き出した物とバイトまで比べる＝行の終わりを変えない）
+tests/data/bs_export/** -text
+
+# BL のリプレイアプリの写し（tools/blreplay_fetch.py・MANIFEST.json の指紋とバイトまで同じに＝行の終わりを変えない）
+app/static/blreplay/** -text

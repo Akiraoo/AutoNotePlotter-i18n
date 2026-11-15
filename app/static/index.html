@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Auto Note Plotter</title>
+<link rel="stylesheet" href="/static/app.css">
+<link rel="stylesheet" href="/static/importer.css">
+<link rel="stylesheet" href="/static/versions.css">
+<link rel="stylesheet" href="/static/library.css">
+<link rel="stylesheet" href="/static/rating.css">
+<link rel="stylesheet" href="/static/check.css">
+<link rel="stylesheet" href="/static/workio.css">
+<link rel="stylesheet" href="/static/expand.css">
+<link rel="stylesheet" href="/static/setup.css">
+<link rel="stylesheet" href="/static/bsexport.css">
+<link rel="stylesheet" href="/static/update.css">
+<link rel="stylesheet" href="/static/songpick.css">
+<link rel="stylesheet" href="/static/replays.css">
+<link rel="stylesheet" href="/static/replaypane.css">
+<!-- 起動の見張り（2026-11-15 利用者「起動させたのだけど、画面が真っ暗なまま。前にも 1 回あった」）: 起動した瞬間に Windows の通信の番号が
+  尽きていて（イベントの記録 Tcpip 4231）、画面の部品（JS）を読めず起動の処理が丸ごと動かなかった＝上の列だけの黒い画面のまま。
+  key.js・main.js（とそれが読む部品）を読めなかった（script の error）・30 秒たっても main.js が動き始めない時は読み込み直す（このタブで 2 回まで・
+  sessionStorage）。それでもだめなら赤い帯で知らせる。main.js は起動の段を anpBoot.set(段) で書き、最初の曲まで済んだら anpBoot.done()
+  （回数を戻す）。窓のアプリ（desktop.py の _watch_open）は段を記録に出し、同じ段で止まったままなら 1 回読み込み直す。
+  この見張りは別のファイルにしない（それ自体が読めない時に効かない）。 -->
+<script>
+(function () {
+  var KEY = 'anp-boot-retry', B = window.anpBoot = {stage: '', started: false, at: Date.now(), failed: false, why: ''};
+  function tries() { try { return +(sessionStorage.getItem(KEY) || 0); } catch (_) { return 9; } }
+  B.set = function (s) { B.stage = s; B.started = true; B.at = Date.now(); };
+  B.done = function () { B.set('done'); try { sessionStorage.removeItem(KEY); } catch (_) {} };
+  B.fail = function (why) {
+    if (B.failed || B.stage === 'done') return;
+    B.failed = true; B.why = why;
+    var n = tries();
+    if (n < 2) { try { sessionStorage.setItem(KEY, String(n + 1)); } catch (_) {} setTimeout(function () { location.reload(); }, 800); return; }
+    var show = function () {
+      var d = document.createElement('div');
+      d.id = 'anpBootFail'; d.setAttribute('role', 'alert');
+      d.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 16px;background:#7f1d1d;color:#fff;font:14px/1.6 sans-serif';
+      d.textContent = '画面の部品を読み込めませんでした（' + why + '）。F5 で読み込み直すか、アプリを起動し直してください。';
+      document.body.appendChild(d);
+    };
+    if (document.body) show(); else document.addEventListener('DOMContentLoaded', show);
+  };
+  setTimeout(function () { if (!B.started) B.fail('30 秒たっても画面の処理が始まらない'); }, 30000);
+})();
+</script>
+<!-- 合言葉（URL の #k=…・同じサーバーへの通信に付ける・合言葉の無い # の確かめの入口を消す）: どのモジュールより先に動く＝type="module" を付けない -->
+<script src="/static/js/key.js" onerror="anpBoot.fail('合言葉の部品を読めなかった')"></script>
+<!-- 3D（NLM の preview-v4 の移植）が読む three の場所（preview3d.js の importMap() と同じ中身） -->
+<script type="importmap">{"imports":{"three":"/static/preview3d/js/vendor/three/three.module.js","three/addons/":"/static/preview3d/js/vendor/three/addons/"}}</script>
+</head>
+<body>
+<header id="top">
+  <!-- 上の列（2026-11-09 利用者「曲の名前などが長くて 2 段になる」→ 1 段に）: まとまり（.grp）の中とボタンの字は折り返さない・狭い窓では
+       まとまりごとに折り返す（app.css の #top の節）。字の長さで幅が変わる物（曲・ライブラリ・作り直しの進み具合）は決まった幅か上限で省略し、
+       全部はマウスを乗せた時（title）。★（#starInfo）・結果のファイル（#fileInfo）・再生の操作（#play・#time・#stems・曲の音量）は preview.js が
+       3D の中へ DOM ごと移す＝ここは移す前の置き場（上の列の並び・幅はこれらを除いて決めた・移した後の空のまとまりは CSS で隠す） -->
+  <div class="grp"><span class="logo" title="Auto Note Plotter（ANP）"><span class="logoFull">Auto Note Plotter</span><span class="logoShort">ANP</span></span><button id="updBtn" title="アプリの版と更新（更新を確認・起動した時に確かめるか）">版</button>
+    <!-- 曲: 押すと曲を選ぶ窓（js/songpick.js・Ctrl+O）。#song（見えない選び）は前からの口のまま残す＝値を変えて change を送ると曲を開く（確かめのページが使う） -->
+    <select id="song" title="曲" hidden></select><button id="songBtn" class="songBtn" title="曲を選ぶ（Ctrl+O）" aria-haspopup="dialog"><span class="songBtnName"></span><span class="songBtnCaret">▾</span></button><button id="importBtn" title="新しい曲を取り込む（音を分ける・曲の解析・最初の譜面）">＋ 曲を取り込む</button>
+    <button id="libBtn" title="この曲の型のライブラリ（出どころ・★の帯・年・型の頻度と難しさ）">ライブラリ</button>
+    <button id="expandBtn" title="今の譜面（基準）をどの難易度に置くか・上と下の難易度をいくつ作るかを決めて、派生の難易度を作る">難易度を展開</button>
+    <label id="viewBox" class="sub viewBox" title="帯「作った譜面」・3D・★に出す難易度（基準＝意思入れで作り直す難易度・派生＝「難易度を展開」で基準から作った難易度）。派生を見ている間も、指示・作り直し・別の案・区間の点検は基準に効く">見る
+      <select id="viewDiff"></select></label>
+    <span id="viewNote" class="sub viewNote"></span>
+    <span id="starInfo" class="sub" title="作った譜面の★（nlm-rating の近似）"></span><!-- preview.js が 3D へ移す -->
+    <span id="fileInfo" class="sub"></span></div><!-- preview.js が 3D へ移す -->
+  <div class="grp"><button id="play" class="big" title="再生・停止（Space）">▶</button><span id="time" class="time">0:00.0</span>
+    <span id="stems" class="stems" title="鳴らすパート（1〜4・Shift で1つだけ・0 で全部）"></span>
+    <label class="vol" title="曲の音量（切る音を聞きやすくする時に下げる）">曲 <input type="range" id="musVol" min="0" max="100" value="100"></label></div><!-- 再生の操作: preview.js が 3D へ移す -->
+  <div class="grp"><button id="zout" title="縮める（Ctrl＋ホイール）">－</button><button id="zin" title="広げる（Ctrl＋ホイール）">＋</button>
+    <button id="undo" title="元に戻す（Ctrl+Z）" disabled>↶</button><button id="redo" title="やり直す（Ctrl+Y）" disabled>↷</button></div>
+  <span id="genState" class="sub"></span><!-- 作り直しの進み具合: 空いている幅いっぱい（狭いと省略・全文は title）＝字が出ても上の列が折り返さない -->
+  <div class="grp right"><button id="gen" class="main" title="意思入れを効かせて譜面を作り直す（多くは数秒〜数十秒）。押すと「変えた所だけ」か「全部」かを聞く。Shift＋クリック＝聞かずに全部作り直す">作り直す</button>
+    <button id="histBtn" title="作り直した履歴（前の版に戻す）">履歴</button>
+    <button id="nlm" title="結果のファイルを NLM で開く">NLM で開く</button><button id="replayBtn" title="この曲を遊んだリプレイ（BeatLeader）を BL のリプレイアプリで見る（遊んだ時の譜面で開く）">リプレイ</button><button id="bsExportBtn" title="この曲を Beat Saber で遊べる形にして、曲のフォルダに書き出す（プレイリストにも入れられる）">Beat Saber に書き出す</button><button id="setupBtn" title="準備と設定（作業の場所・音を分ける部品・NLM の場所）">準備と設定</button><button id="quit" title="アプリを終わる（サーバーを止める）">終わる</button></div>
+</header>
+<main id="main">
+  <section id="tl">
+    <canvas id="ruler"></canvas>
+    <div id="lanesWrap"><canvas id="lanes"></canvas></div>
+    <canvas id="ovw"></canvas>
+    <div class="hsplit" id="hsplit" title="ドラッグで帯と 3D の境目を動かす（ダブルクリックで自動に戻す）"></div>
+    <div id="bottom">
+      <!-- 左下の欄: 「付けた指示」と「リプレイ」（遊んだリプレイを BL のリプレイアプリでここに開き、再生位置をアプリとそろえる＝js/replaypane.js）を切り替える -->
+      <div id="listPane"><div class="cardHead lpHead"><span class="lpTabs"><button data-lp="list" class="on" title="この曲に付けた指示の一覧">付けた指示 <span class="sub" id="iCount"></span></button><button data-lp="replay"
+        title="遊んだリプレイ（BeatLeader）を BL のリプレイアプリでここに開き、再生位置をアプリの帯・3D とそろえる">リプレイ</button></span></div>
+        <div id="iList" class="list"></div><div id="rpPane" class="rpPane" hidden></div></div>
+      <div class="bsplit" id="bsplit" title="ドラッグで「付けた指示」と 3D の境目を動かす（ダブルクリックで元の比率に戻す）"></div>
+      <div id="pv"></div>
+    </div>
+  </section>
+  <div class="vsplit" id="vsplit" title="ドラッグで右の欄の幅を変える"></div>
+  <aside id="side">
+    <div id="selBox"></div>
+    <div id="insp"></div>
+  </aside>
+</main>
+<footer id="foot"><span id="status"></span><label class="sub">表示の大きさ <select id="uiSize"><option value="1">100%</option><option value="1.15">115%</option>
+  <option value="1.25">125%</option><option value="1.4">140%</option><option value="1.6">160%</option></select></label><span class="sub">ホイール＝前後・Ctrl＋ホイール＝拡大縮小・Shift＋ホイール＝帯を上下・ドラッグ＝区間を選ぶ・Space＝再生・Ctrl+Z／Y＝元に戻す／やり直す</span></footer>
+<div id="ctx" class="ctx"></div>
+<div id="genAsk" class="modal genAsk"><div class="genAskCard">
+  <div class="genAskHead"><b>譜面を作り直す</b><span class="sub">どこまで作り直すか</span></div>
+  <div id="genAskNote" class="genAskNote"></div>
+  <button id="genAskPart" class="genAskBtn"><b>変えた所だけ作り直す</b><span>指示を変えた区間とつなぎ目だけが変わる。指示を変えていない所は今の譜面に寄せる（いつもはこれ）</span></button>
+  <button id="genAskAll" class="genAskBtn"><b>全部作り直す</b><span>今の譜面に寄せずに、曲の全部を新しく作る（指示を変えていない所も変わる・作り方を直した後に今の曲へ効かせる時）。NLM で直したクリップ・「固定」・自分のクリップは残る</span></button>
+  <div class="genAskFoot"><span class="sub">Enter＝選んでいる方・Esc＝やめる</span><button id="genAskNo">やめる</button></div>
+</div></div>
+<div id="genOv" class="modal genOv"><div class="genCard">
+  <div class="genTop"><span class="genSpin"></span><b id="genOvTitle">譜面を作り直しています</b></div>
+  <div id="genOvSub" class="genSub"></div>
+  <div class="genBar"><i id="genOvBar"></i></div>
+  <div class="genNums"><b id="genOvTime">0 秒</b><span id="genOvEst" class="sub"></span></div>
+  <div id="genOvLog" class="genLog"></div>
+  <div class="genBtns"><button id="genOvStop" title="作り直しを止める（結果のファイル・報告は作り直しの前のまま・履歴にも残さない）">やめる（前の譜面のまま）</button><button id="genOvHide" title="この窓を隠して、ほかの操作をする（作り直しは続く）">裏で続ける（ほかの操作をする）</button></div>
+  <div class="hint">終わると結果の窓が出ます。裏で続けている間は、上の「作り直している…」の字を押すとこの窓に戻ります。この間に付けた指示は、
+    今の作り直しには入りません（終わった後に 3D の窓で知らせます）。</div>
+</div></div>
+<div id="rep" class="modal"><div class="dlg"><div class="dlgHead"><b id="repTitle"></b><button id="repClose">閉じる</button></div><div id="repBody" class="dlgBody"></div></div></div>
+<script type="module" src="/static/js/main.js" onerror="anpBoot.fail('画面の部品を読めなかった')"></script>
+</body>
+</html>

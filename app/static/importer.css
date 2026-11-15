@@ -1,0 +1,64 @@
+/* 新しい曲の取り込み（js/importer.js）の見た目。窓の枠は app.css の .modal・.dlg を使う */
+#importBtn.impBusy{background:var(--accent2);border-color:var(--accent2);color:#111;font-weight:700}
+.imp .dlg{width:min(54rem,94vw)}
+.imp .dlgHead{gap:.8rem}
+.imp .dlgHead .sub{margin-right:auto}
+.imp [hidden]{display:none !important}
+.imp section{display:flex;flex-direction:column;gap:.55rem;padding-top:.4rem}
+.imp input:not([type]),.imp input[type=text]{background:var(--widget);border:1px solid #1d1d1d;border-radius:.4rem;padding:.25rem .5rem;min-width:0}
+.imp input:disabled{opacity:.45}
+.impRow{display:flex;gap:.45rem;align-items:center}
+.impRow input{flex:1}
+.impMsg{min-height:1.5em;color:var(--textdim)}
+.impMsg.bad,.impLast.bad,#impNameNote.bad{color:var(--red)}
+.impInfo{display:flex;flex-wrap:wrap;gap:.35rem 1rem;align-items:baseline;padding:.45rem .7rem;background:var(--panel2);border-radius:.5rem}
+.impGrid{display:grid;grid-template-columns:auto 1fr;gap:.45rem .8rem;align-items:center}
+.impGrid > label{color:var(--textdim);text-align:right}
+.impGrid > div > input,.impGrid > input{width:100%}
+.impNums{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+.impGrid .impNums input{width:6.5rem;flex:none}
+.impNums label{color:var(--textdim);margin-left:.6rem}
+.impCovers{display:flex;flex-wrap:wrap;gap:.45rem}
+.impCov{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;width:7.2rem;height:8.4rem;padding:.3rem;
+  border:2px solid transparent;background:var(--panel2)}
+.impCov img{width:6.4rem;height:6.4rem;object-fit:cover;border-radius:.3rem;background:#000}
+.impCov span{font-size:.8rem;color:var(--textdim);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.impCov.on{border-color:var(--accent)}
+.impCov.none,.impCov.more{height:8.4rem}
+#impCovPaste span+span{font-size:.72rem}
+.impWarn{padding:.45rem .7rem;border-left:3px solid var(--accent2);background:#f0a0200f;border-radius:.3rem;line-height:1.6}
+.impWarn.bad{border-left-color:var(--red);background:#ff274d14}
+.impWarn button{margin-left:.4rem}
+.impChk{display:block;margin-top:.2rem;color:var(--textdim);cursor:pointer}
+.impFoot{display:flex;gap:.5rem;align-items:center;justify-content:flex-end;margin-top:.3rem}
+.impFoot .sub{margin-right:auto}
+.impRunHead{display:flex;gap:1rem;align-items:baseline;font-size:1.08rem}
+.impSteps{list-style:none;margin:.2rem 0;padding:0;display:flex;flex-direction:column;gap:.3rem}
+.impSteps li{display:flex;gap:.6rem;align-items:center;color:var(--textmute)}
+.impSteps li .mk{width:1.4rem;text-align:center;font-weight:700}
+.impSteps li.done{color:var(--textdim)}
+.impSteps li.done .mk{color:var(--green)}
+.impSteps li.now{color:var(--text);font-weight:700}
+.impSteps li.now .mk{color:var(--accent2);animation:impBlink 1.2s ease-in-out infinite}
+.impSteps li.bad{color:var(--red)}
+@keyframes impBlink{50%{opacity:.25}}
+.impLast{min-height:1.5em;color:var(--textdim);font-size:.9rem;font-family:Consolas,"BIZ UDGothic",monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.impLog{max-height:18rem;overflow:auto;background:#0b0b0b;border-radius:.4rem;padding:.5rem .7rem;margin:0;font-size:.82rem;white-space:pre-wrap;color:var(--textdim)}
+/* 基本設定（型のライブラリ・取り込みの途中で決める）。欄の中身は library.css の .libPick */
+#importBtn.impWait{background:var(--red);border-color:var(--red);color:#fff;font-weight:700;animation:impPulse 1.6s ease-in-out infinite}
+@keyframes impPulse{50%{filter:brightness(1.35)}}
+.imp.wide .dlg{width:min(62rem,95vw)}
+.impMini{display:flex;flex-direction:column;gap:.2rem;padding:.4rem .75rem;background:var(--panel2);border-radius:.5rem}
+.impMiniHead{display:flex;flex-wrap:nowrap;gap:.2rem .7rem;align-items:baseline;min-width:0}
+.impMiniHead>:not(.impMiniLast){flex:none;white-space:nowrap}   /* 長い記録の行に押されて曲名が 1 字ずつ折れた */
+.impMiniLast{flex:1 1 0;font-family:Consolas,"BIZ UDGothic",monospace;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.impMiniWait{color:var(--accent2);font-weight:700}
+.impSteps.mini{flex-direction:row;flex-wrap:wrap;gap:.1rem 1.1rem;margin:0;font-size:.88rem}
+.impSteps.mini li{gap:.3rem}
+.impSteps.mini li .mk{width:1rem}
+.impSteps li.wait{color:var(--accent2);font-weight:700}
+.impSteps li.wait .mk{color:var(--accent2);animation:impBlink 1.2s ease-in-out infinite}
+.impSetHead{display:flex;flex-wrap:wrap;gap:.2rem .9rem;align-items:baseline;margin-top:.15rem}
+.impSetHead b{font-size:1.05rem}
+#impSetMsg.bad{color:var(--red)}
+.impRunSet{display:flex;flex-wrap:wrap;gap:.3rem .8rem;align-items:center;padding:.35rem .7rem;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:.3rem}

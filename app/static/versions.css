@@ -1,0 +1,48 @@
+/* 別の案と履歴（js/versions.js）の見た目。色・大きさは app.css にそろえる（1rem＝13px×--u） */
+
+/* 右の欄の上の欄（見ている版・別の案） */
+.vsCard{flex:none;margin-bottom:.45rem;border:2px solid var(--accent2)}
+.vsCard .cardHead{color:var(--accent2)}
+.vsCard .ck,.vsDlg .ck,#selBox .ck{display:flex;align-items:center;gap:.3rem;font-size:.92rem;color:var(--textdim);cursor:pointer}
+.vsWhat{font-size:.92rem;color:var(--textdim)}
+.vsSep{border-top:1px solid var(--outline);margin:.5rem 0}
+.vsProg{font-size:.92rem;color:var(--textdim);margin:.2rem 0}
+.vsProg .ok{color:var(--green)}
+.vsProg .bad,.vsTbl .bad{color:#ff6b6b}
+
+.vsTbl{border-collapse:collapse;width:100%;font-size:.88rem;margin:.3rem 0;font-variant-numeric:tabular-nums}
+.vsTbl th,.vsTbl td{padding:.18rem .35rem;text-align:right;border-bottom:1px solid var(--outline);white-space:nowrap}
+.vsTbl th:first-child,.vsTbl td:first-child{text-align:left}
+.vsTbl th{color:var(--textmute);font-weight:400}
+.vsTbl tr.vsRow{cursor:pointer}
+.vsTbl tr.vsRow:hover td{background:var(--widget)}
+.vsTbl tr.sel td{background:rgba(240,160,32,.18);color:var(--text)}
+.vsTbl tr.sel td:first-child{box-shadow:inset .25rem 0 0 var(--accent2);font-weight:700}
+.vsTbl .vsRare{color:var(--accent2);font-size:.82rem}   /* 珍しい型まで広げた案 */
+
+/* 版・案を見ている間: タイムラインの縁を橙に・右上に札 */
+#tl{position:relative}
+.vsTag{position:absolute;top:2.85rem;right:.9rem;z-index:5;display:none;background:var(--accent2);color:#111;font-weight:700;
+  font-size:.92rem;padding:.1rem .7rem;border-radius:.4rem;pointer-events:none;box-shadow:0 2px 8px #0009}
+body.vsViewing .vsTag{display:block}
+body.vsViewing #tl{outline:2px solid var(--accent2);outline-offset:-2px}
+
+/* 履歴の窓（報告の窓 #rep より下に重ねる＝報告を開くと上に出る） */
+.vsModal{z-index:55}
+.vsDlg .dlgHead{gap:1rem}
+.vsDlg .dlgHead .sub{margin-right:auto}
+.vsHTbl td,.vsHTbl th{white-space:nowrap}
+.vsHTbl td.head{white-space:normal;color:var(--textmute);font-size:.85rem;min-width:14rem}
+.vsHTbl td.ops button{padding:.05rem .5rem;font-size:.88rem;margin-left:.2rem}
+.vsHTbl tr.cur td{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.vsHTbl tr.viewing td{box-shadow:inset 0 -2px 0 var(--accent2)}
+.chip.vsOn{background:var(--accent2);color:#111;font-weight:700}
+
+/* ★の列（js/versions.js・app/rating.py）。測れない PC では列ごと隠す */
+.vsTbl td.vsStar,.vsHTbl td.vsStar{color:var(--accent2);cursor:help}
+.vsTbl th.vsStar,.vsHTbl th.vsStar{color:var(--accent2)}
+body.vsNoStar .vsStar{display:none}
+
+/* 形の別の案: 形の回へ飛ぶボタン */
+.vsRuns{gap:.25rem}
+.vsRuns button{padding:0 .5rem;font-size:.88rem}

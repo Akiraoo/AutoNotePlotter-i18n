@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D の見え方の確かめ</title>
+<!-- three と three/addons/ の場所（preview3d.js の importMap() と同じ中身。import map はページに書くしかない） -->
+<script type="importmap">{"imports":{"three":"./js/vendor/three/three.module.js","three/addons/":"./js/vendor/three/addons/"}}</script>
+<style>
+  :root { --bg: #111; --fg: #ddd; --mut: #888; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 13px system-ui, sans-serif; }
+  #bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 6px 10px; }
+  #bar input[type=number] { width: 64px; }
+  #pv { width: 960px; height: 540px; max-width: 100vw; position: relative; background: #000; }
+  #info { color: var(--mut); }
+</style>
+</head>
+<body>
+<div id="bar">
+  <button id="play">▶ 再生</button>
+  <label>時刻（秒） <input id="t" type="number" step="0.1" value="0"></label>
+  <label>NJS <input id="njs" type="number" step="0.5"></label>
+  <label>JD <input id="jd" type="number" step="0.5"></label>
+  <select id="env"></select>
+  <span id="info"></span>
+</div>
+<div id="pv"></div>
+<script type="module">
+// 使い方: test.html?nlmf=<.nlmf の URL>&t=<秒>[&diff=<難易度>][&jd=<JD>][&env=<ステージ>]。リポジトリの一番上で
+// python -m http.server を動かし、/app/static/preview3d/test.html?nlmf=/out/<曲>.nlmf&t=40 のように開く（曲のファイルはコミットしない）
+import {createPreview} from './preview3d.js';
+import {nlmfToMap} from './nlmf-map.js';
+const q = new URLSearchParams(location.search), $ = id => document.getElementById(id);
+if (q.get('w')) $('pv').style.width = q.get('w') + 'px';   // NLM の左上の窓と同じ大きさで見比べる時（480×472）
+if (q.get('h')) $('pv').style.height = q.get('h') + 'px';
+let map = {bpm: 120, notes: [], bombs: [], walls: [], arcs: [], chains: [], lights: []};
+if (q.get('nlmf')) map = nlmfToMap(await fetch(q.get('nlmf'), {cache: 'no-store'}).then(r => r.json()), {diff: q.get('diff') || undefined});
+const pv = await createPreview($('pv'), {jd: q.get('jd') ? +q.get('jd') : null, env: q.get('env') || undefined});
+pv.setMap({...map, env: q.get('env') || map.env});
+for (const e of pv.environments()) $('env').add(new Option(e, e, false, e === (q.get('env') || map.env)));
+let t = +(q.get('t') || 0), playing = false, t0 = 0, w0 = 0;
+const show = () => {
+  const j = pv.jump();
+  $('njs').value = j.njs; $('jd').value = j.jd.toFixed(1);
+  $('info').textContent = `拍 ${(t * map.bpm / 60).toFixed(2)}・ノーツ ${map.notes.length}・反応時間 ${(j.rt * 1000).toFixed(0)}ms・${map.diff || ''}`;
+};
+$('t').value = t; show();
+$('t').onchange = () => { t = +$('t').value; show(); };
+$('njs').onchange = () => { pv.setNJS(+$('njs').value); show(); };
+$('jd').onchange = () => { pv.setJD(+$('jd').value); show(); };
+$('env').onchange = () => pv.setEnvironment($('env').value);
+$('play').onclick = () => { playing = !playing; t0 = t; w0 = performance.now(); $('play').textContent = playing ? '■ 止める' : '▶ 再生'; };
+(function loop() {   // 止まっている時も毎コマ呼ぶ（ステージの読み込みが後から終わった時に描き直す。preview-v4 は変化が無ければ描かない）
+  if (playing) { t = t0 + (performance.now() - w0) / 1000; $('t').value = t.toFixed(1); }
+  pv.setTimeSec(t, playing);
+  requestAnimationFrame(loop);
+})();
+document.title = '3D の見え方の確かめ（準備完了）';
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* 曲ごとのライブラリの設定（js/library.js）の見た目。窓の枠は app.css の .modal・.dlg を使う */
+#libBtn.libDb{border-color:var(--accent)}
+#libBtn.libBad{border-color:var(--red);color:#ffb3c0}
+.lib .dlg{width:min(58rem,94vw)}
+.lib .dlgHead{gap:.8rem}
+.lib .dlgHead .sub{margin-right:auto}
+.lib .dlgBody{display:flex;flex-direction:column;gap:.55rem}
+.lib .bad,.libPick .bad{color:var(--red)}
+.libPick{display:flex;flex-direction:column;gap:.55rem}   /* 絞り込みの欄（library.js の filterPanel・取り込みの基本設定の窓にも置く） */
+.libNote{color:var(--textdim);font-size:.92rem}
+.libMode{display:flex;gap:.4rem;align-items:baseline;cursor:pointer}
+.libMode input{accent-color:var(--accent)}
+.libForm{display:grid;grid-template-columns:auto 1fr;gap:.45rem .9rem;align-items:center;padding:.5rem .8rem;background:var(--panel2);border-radius:.5rem}
+.libKey{color:var(--textdim);text-align:right}
+.lib .seg,.libPick .seg{display:flex;flex-wrap:wrap;gap:.3rem}
+.lib .seg button,.libPick .seg button{display:flex;flex-direction:column;align-items:center;line-height:1.25;padding:.2rem .65rem}
+.lib .seg button small,.libPick .seg button small{font-size:.78rem;color:var(--textmute)}
+.lib .seg button.on small,.libPick .seg button.on small{color:var(--on-accent)}
+.libYears{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.libCount{min-height:3.2em;padding:.45rem .8rem;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:.3rem;transition:opacity .15s}
+.libCount.busy{opacity:.5}
+.libNums{display:flex;flex-wrap:wrap;gap:.2rem 1.1rem;align-items:baseline}
+.libNums b{font-size:1.1rem}
+.libNums .libMain b{color:var(--accent2)}
+.libNums small{color:var(--textmute);font-size:.82rem}
+.libWarnBox{padding:.4rem .7rem;border-left:3px solid var(--accent2);background:#f0a0200f;border-radius:.3rem}
+.libFoot{display:flex;gap:.5rem;align-items:center}
+.libSpacer{flex:1}
+/* 量の目安（js/library.js の libAmt） */
+.libAmt{display:flex;flex-direction:column;gap:.35rem;padding:.5rem .8rem;border-top:1px solid var(--panel2)}
+.libAmtHead{display:flex;gap:.8rem;align-items:baseline}
+.libAmtNow{color:var(--textdim)}
+.libAmtNow b{color:var(--text)}
+.libAmtBands{margin-left:1.4rem}
+.libAmtBands.off{opacity:.45}
+#libAmtNps{width:5.2rem;margin-left:.4rem}
+.libAmtCmp{min-height:1.4em;padding:.35rem .7rem;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:.3rem}
+.libAmtCmp .warnTxt{color:var(--accent2)}
+/* アップロード年のチェック（2026-11-15・js/library.js の filterPanel） */
+.libYChecks{display:flex;flex-wrap:wrap;gap:.3rem;width:100%}
+.libY{display:inline-flex;align-items:center;gap:.3rem;padding:.12rem .5rem;border-radius:.4rem;background:var(--widget);cursor:pointer;user-select:none}
+.libY small{color:var(--textmute);font-size:.78rem}
+.libY.on{background:var(--accent-soft);color:var(--accent-text)}
+.libYChecks.auto .libY{cursor:default}
+.libYChecks.auto .libY:not(.on){opacity:.55}
+.libYNew{margin-left:.5rem;padding:.05rem .55rem;font-size:.85rem}

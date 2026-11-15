@@ -1,0 +1,101 @@
+/* 難易度の展開（js/expand.js）の窓。窓の枠は app.css の .modal・.dlg を使う。色は app.css の --accent 等（紫などを直に書かない・
+   薄い地は color-mix(in srgb,var(--accent) N%,transparent)） */
+#expandBtn.xpBusy{border-color:var(--accent);color:var(--accent-text)}
+.xp .dlg{width:min(72rem,95vw);max-height:90vh}
+.xp .dlgHead{gap:.8rem}
+.xp .dlgHead .sub{margin-right:auto}
+/* 縦のスクロールの棒が出入りしても幅が変わらない（表の列の幅が動かない） */
+.xp .dlgBody{display:flex;flex-direction:column;gap:.6rem;scrollbar-gutter:stable}
+.xp .bad{color:var(--red)}
+.xp .warnTxt{color:var(--accent2)}
+.xpSec h4{margin:.2rem 0 .3rem;font-size:1rem;color:var(--accent2)}
+.xp .xpTbl{margin:.2rem 0}
+.xp .xpTbl td{vertical-align:middle}
+.xpBaseRow td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.xpTag{display:inline-block;padding:0 .4rem;margin:0 .25rem .1rem 0;border-radius:.3rem;font-size:.85rem;background:var(--widget);font-weight:400}
+.xpTag.base{background:var(--accent);color:var(--on-accent);font-weight:700}
+.xpNjsBase{color:var(--accent-text)}   /* 3D で決めた基準の NJS（app/njsbase.py） */
+.xpNjsBase.nlm{color:var(--accent2)}   /* NLM で直した基準の NJS（派生の元） */
+.xpTag.der{background:#3092ff33;color:#a8d0ff;font-weight:700}
+.xpTag.user{background:#2fbf7133;color:#9ff0c4}
+.xpTag.edit{background:#f0a02033;color:#ffd28a}
+.xp .seg{display:flex;flex-wrap:wrap;gap:.3rem}
+.xp .seg button{display:flex;flex-direction:column;align-items:center;line-height:1.25;padding:.2rem .7rem;min-width:4.2rem}
+.xp .seg button small{font-size:.78rem;color:var(--textmute)}
+.xp .seg button.on small{color:var(--on-accent)}
+.xpNote{margin-top:.35rem;padding:.35rem .7rem;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:.3rem;color:var(--textdim)}
+.xpUD{display:grid;grid-template-columns:auto 1fr;gap:.4rem .9rem;align-items:center}
+.xpKey{color:var(--textdim);text-align:right}
+/* ④ 派生ごとの行（2026-11-09 利用者「％を変えると位置がずれる」）: 列の幅は固定（中身の字の長さで組み直さない）・欄は上寄せ（同じ行の
+   ほかの欄の高さが変わっても量の欄は動かない）・量の下の 2 行は折り返さない等幅の数字・中身が変わる所は高さを取っておく */
+.xpRowsTbl{table-layout:fixed}
+.xpRowsTbl col.xpC1{width:8.2rem}
+.xpRowsTbl col.xpC2{width:13.5rem}
+.xpRowsTbl col.xpC4{width:17rem}
+.xp .xpRowsTbl td{vertical-align:top}
+.xpRowsTbl th .sub{font-weight:400;font-size:.8rem}
+.xpPctLine{display:flex;align-items:center;gap:.3rem;white-space:nowrap;min-height:2.1rem}
+.xpRowsTbl .xpPct{width:4.6rem;font-variant-numeric:tabular-nums}
+.xpRowsTbl .xpPct.xpBadIn{border-color:var(--red)}
+.xpPctNps,.xpPctDef{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums;line-height:1.45}
+.xpRowsTbl select{max-width:100%}
+.xpRowsTbl .xpLib{width:100%;max-width:22rem}
+.xpRowsTbl .xpReset{padding:0 .45rem;font-size:.85rem;margin-left:.2rem}
+.xpCount{font-size:.88rem;margin-top:.15rem;min-height:2.6em}
+.xpCount b{color:var(--accent2)}
+.xpPlanNote{font-size:.8rem;max-width:26rem}
+.xpPlanNote:empty{display:none}
+.xpKeep{font-size:.9rem}
+/* 派生の既定を数えている間（POST /api/expand/plan・初めは数秒）: 行は場所を取ったまま薄く、上に「準備中」 */
+#xpRows{position:relative}
+#xpRows.xpWait table{pointer-events:none}
+#xpRows.xpWaitShow table{opacity:.3}   /* 0.2 秒より長く待つ時だけ（覚えた既定はすぐ返る＝ちらつかせない・expand.js の renderRows） */
+.xpWaitMsg{position:absolute;left:50%;top:2.6rem;transform:translateX(-50%);display:none;align-items:center;gap:.8rem;padding:.7rem 1.2rem;
+  background:var(--panel2);border:1px solid var(--accent);border-radius:.6rem;box-shadow:0 6px 24px #000a;width:max-content;max-width:90%}
+#xpRows.xpWaitShow .xpWaitMsg{display:flex}
+.xpWaitMsg .genSpin{width:1.5rem;height:1.5rem;border-width:.22rem}
+.xpWaitMsg b{color:var(--accent-text)}
+/* 窓を開いて一覧を読んでいる間（遅い時だけ・0.25 秒より長くかかった時） */
+.xpLoadMsg{display:none;align-items:center;gap:.8rem;padding:2rem 1rem;justify-content:center}
+.xpLoadMsg .genSpin{width:1.5rem;height:1.5rem;border-width:.22rem}
+.xp.xpLoad .xpLoadMsg{display:flex}
+.xp.xpLoad .dlgBody>:not(.xpLoadMsg),.xp.xpLoad #xpSong{display:none}
+.xpAsk{display:none;padding:.6rem .9rem;border:2px solid var(--accent2);border-radius:.5rem;background:#f0a02014}
+.xpAskMsg{margin-bottom:.5rem}
+.xpAskBtns{display:flex;gap:.5rem;justify-content:flex-end}
+.xpRun:empty,.xpRes:empty{display:none}
+.xpRun{padding:.55rem .9rem;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);border-radius:.4rem}
+.xpRunHead{display:flex;align-items:center;gap:.7rem}
+.xpRunHead .genSpin{width:1.4rem;height:1.4rem;border-width:.22rem}
+.xpSteps{list-style:none;margin:.35rem 0;padding:0;display:flex;flex-wrap:wrap;gap:.2rem 1rem;color:var(--textmute)}
+.xpSteps li.done{color:var(--green)}
+.xpSteps li.now{color:var(--text);font-weight:700}
+.xpRes{padding:.55rem .9rem;border-left:3px solid var(--green);background:#56ffc10f;border-radius:.4rem}
+.xpResHead{margin-bottom:.2rem}
+.xpDet{margin:.25rem 0}
+.xpDet summary{cursor:pointer;color:var(--textdim)}
+.xpDet .li{padding-left:1rem;font-size:.9rem}
+.xpDet pre{max-height:18rem;overflow:auto}
+.xpFoot{display:flex;gap:.5rem;align-items:center}
+.xpSpacer{flex:1}
+.xpStep{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .5rem;margin:.1rem 0 .4rem}
+.xpStep input{width:4.2rem}
+.xpPar td{vertical-align:middle}
+.xpSt{display:inline-flex;align-items:center;gap:.35rem;padding:0 .45rem;border-radius:.3rem;background:var(--widget);white-space:nowrap}
+.xpSt .genSpin{width:.9rem;height:.9rem;border-width:.15rem}
+.xpSt.running{background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--accent-text);font-weight:700}
+.xpSt.done{background:#2fbf7133;color:#9ff0c4}
+.xpSt.error,.xpSt.skipped{background:#ff505033;color:#ffb0b0}
+.xpSt.cancelled{color:var(--textmute)}
+.xpSt.base{background:var(--accent);color:var(--on-accent);font-weight:700}
+.xpParStar{white-space:nowrap;font-variant-numeric:tabular-nums}
+.xpLast{font-size:.85rem;max-width:34rem;word-break:break-all}
+/* 選んだ難易度だけ作り直す（行の「作り直す」）・行の型の頻度と置き方の難しさ（2026-11-03） */
+.xpMakeBar{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .5rem;margin:.1rem 0 .35rem}
+.xpMakeBar button{padding:.05rem .6rem}
+.xpMake{display:flex;align-items:center;gap:.25rem;margin-top:.2rem;font-size:.88rem;white-space:nowrap;cursor:pointer}
+.xpSkip td{opacity:.55}
+.xpSkip td:first-child{opacity:1}
+.xpOver{display:flex;flex-wrap:wrap;gap:.25rem .7rem;margin-top:.3rem;font-size:.88rem}
+.xpOver label{display:flex;align-items:center;gap:.3rem;white-space:nowrap}
+.xpOver select{max-width:15rem}

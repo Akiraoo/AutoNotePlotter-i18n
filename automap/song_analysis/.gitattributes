@@ -1,0 +1,2 @@
+# NLM から写した物はバイトのまま（行の終わりを変えると SOURCE.md の指紋・tools/sync_nlm_analysis.py の比べがずれる）
+*.py -text

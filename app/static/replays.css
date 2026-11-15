@@ -1,0 +1,40 @@
+/* リプレイを見る窓（js/replays.js・docs/アプリ仕様.md 26 節） */
+.rl .dlg{width:min(70rem,96vw)}
+.rlTbl td{vertical-align:middle}
+.rlTbl td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rlTbl td:first-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.rlMod{display:inline-block;margin:0 .2rem .1rem 0;padding:0 .35rem;border-radius:.3rem;background:var(--widget2);font-size:.85rem}
+.rlMod.bad{background:color-mix(in srgb,#e03131 35%,transparent)}
+.rlSrc{white-space:nowrap;font-size:.88rem}
+.rlSrc.rebuild{color:#fab005}
+.rlSrc.none{color:var(--textmute)}
+.rlOpen{white-space:nowrap}
+.rlMsg{margin:.4rem 0;padding:.45rem .7rem;border-radius:.45rem;background:var(--accent-soft)}
+.rlMsg.bad{background:color-mix(in srgb,#e03131 25%,transparent)}
+.rlMsg a{color:var(--accent-text)}
+.rlRow{display:flex;gap:.4rem;margin-top:.35rem}
+.rlRow input{flex:1;min-width:0}
+.rlTabs{display:flex;gap:.25rem;margin:0 auto 0 1rem}
+.rlTabs button.on{background:var(--accent);color:var(--on-accent)}
+.rlTools{display:flex;align-items:center;gap:.8rem;margin:.3rem 0}
+.rlTools[hidden]{display:none}   /* 「この曲」では隠す（display:flex が hidden を打ち消した） */
+.rlTools input[type=search]{flex:0 1 20rem;min-width:8rem}
+.rlSong{min-width:10rem}
+.rlSong .sub{font-size:.82rem}
+.rlAnp{margin-left:.35rem;padding:0 .3rem;border-radius:.3rem;font-size:.75rem;background:var(--accent-soft);color:var(--accent-text)}
+#rlMore{margin:.3rem 0}
+.rlBtns button{display:block;width:100%;white-space:nowrap}   /* 「ここで見る」と「BL のリプレイで見る」は縦に積む（横に並ぶと窓からはみ出した） */
+.rlBtns button+button{margin-top:.25rem}
+/* 「ここで見る」（左下の欄で同期して見る）は控えめな緑＝「BL のリプレイで見る」（別のタブ）と見分けて先に選べる（2026-11-15 利用者） */
+.rlBtns .rlHere{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent-text)}
+.rlBtns .rlHere:hover:not(:disabled){background:color-mix(in srgb,var(--accent) 28%,transparent)}
+.rlBtns .rlHere:disabled{background:transparent;color:inherit}
+.rlTbl th{white-space:nowrap}
+.rlMiss span{display:block;white-space:nowrap}   /* ミス・悪い切り方・ボム・壁を 1 つずつ 1 行に（字が縦に並ばない） */
+.rlMods{white-space:nowrap}
+.rlSongRow{display:flex;align-items:center;gap:.55rem}
+.rlCov{flex:none;width:3rem;height:3rem;border-radius:.35rem;overflow:hidden;background:var(--widget)}   /* 読むまで・無い時は地の色の四角 */
+.rlCov img{display:block;width:100%;height:100%;object-fit:cover;visibility:hidden}   /* 読めた時だけ見せる（壊れた画像の印を出さない） */
+.rlCov img.on{visibility:visible}
+.rlStar{white-space:nowrap;color:#ffd43b}   /* 遊んだ時の譜面の★ */
+.rlMod.quit{background:color-mix(in srgb,#adb5bd 30%,transparent)}   /* 途中でやめたプレイ（ファイル名の exit） */

@@ -1,0 +1,7 @@
+/* 作った譜面の★（js/rating.js）の見た目 */
+#starInfo.rating{white-space:nowrap;cursor:help;margin-left:.2rem}
+#starInfo.rating b{color:var(--accent2);font-weight:700}
+#starInfo.rating .lib{margin-left:.2rem}
+#starInfo.rating.over b,#starInfo.rating.under b{color:var(--red)}
+#starInfo.rating.busy,#starInfo.rating.stale{opacity:.55}
+#starInfo.rating.bad{color:var(--red)}
