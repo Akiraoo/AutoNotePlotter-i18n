@@ -68,7 +68,9 @@ export function init(app) {
 export function label(name) {
   const b = $('songBtn'); if (!b) return;
   const s = name ? songOf(name) : null, arc = !!(s && s.archived);
-  b.querySelector('.songBtnName').textContent = name || '曲を選ぶ';
+  const nm = b.querySelector('.songBtnName');
+  nm.setAttribute('translate', name ? 'no' : 'yes');   // 曲名は訳さない（i18n.js）
+  nm.textContent = name || '曲を選ぶ';
   b.classList.toggle('arc', arc);
   b.title = (name ? `曲: ${name}` + (s && s.artist ? `（${s.artist}）` : '') + (arc ? '・アーカイブした曲' : '') + '\n' : '') + '押すと曲を選ぶ窓（検索・並び替え・アーカイブ・Ctrl+O）';
 }
@@ -147,8 +149,8 @@ function render() {
       `\n最終更新: ${dateText(s.mtime)}` + (cur ? '\n（今開いている曲）' : '');
     return `<div class="spRow${cur ? ' cur' : ''}${s.song === SP.sel ? ' sel' : ''}" role="option" aria-selected="${s.song === SP.sel}" data-song="${esc(s.song)}" title="${esc(tip)}">
       <span class="spCover"></span>
-      <span class="spText"><span class="spTitle">${esc(title)}${cur ? '<span class="spCur">開いている</span>' : ''}</span>
-        <span class="spArtist">${esc(s.artist || (title !== s.song ? s.song : ''))}</span></span>
+      <span class="spText"><span class="spTitle"><span translate="no">${esc(title)}</span>${cur ? '<span class="spCur">開いている</span>' : ''}</span>
+        <span class="spArtist" translate="no">${esc(s.artist || (title !== s.song ? s.song : ''))}</span></span>
       <span class="spDate">${esc(dateText(s.mtime))}</span>
       <button class="spArcBtn" tabindex="-1" title="${SP.arc ? '普段の一覧に戻す' : 'アーカイブする（普段の一覧に出さない・作業ファイルに印を付けるだけ・「アーカイブ」に切り替えると戻せる）'}">${SP.arc ? '戻す' : 'アーカイブ'}</button>
     </div>`;

@@ -49,6 +49,8 @@
 </script>
 <!-- 合言葉（URL の #k=…・同じサーバーへの通信に付ける・合言葉の無い # の確かめの入口を消す）: どのモジュールより先に動く＝type="module" を付けない -->
 <script src="/static/js/key.js" onerror="anpBoot.fail('合言葉の部品を読めなかった')"></script>
+<!-- 表示の言語（日本語・简体中文・繁體中文・English）: 画面に出る字を辞書（static/i18n/）で訳す。key.js の後・どのモジュールより先 -->
+<script src="/static/js/i18n.js"></script>
 <!-- 3D（NLM の preview-v4 の移植）が読む three の場所（preview3d.js の importMap() と同じ中身） -->
 <script type="importmap">{"imports":{"three":"/static/preview3d/js/vendor/three/three.module.js","three/addons/":"/static/preview3d/js/vendor/three/addons/"}}</script>
 </head>

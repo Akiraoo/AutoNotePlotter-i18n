@@ -29,11 +29,16 @@ Beat Saber への書き出しまでを、画像付きで順番に説明してい
 
 > **English**: Auto Note Plotter is a free Windows app that generates Beat Saber maps from a song without AI models — note placement comes
 > from patterns collected from BeatLeader ranked maps, plus rules and scoring. You set per-section intentions and regenerate; maps export
-> straight to Beat Saber or open in Non-Linear Mapper. The app and its docs are in Japanese for now.
+> straight to Beat Saber or open in Non-Linear Mapper. The docs are in Japanese for now.
+>
+> **Language / 语言 / 語言**: the app's screen can be shown in 日本語・简体中文・繁體中文・English — pick it with 🌐 at the bottom of the
+> window (next to the UI size). 应用界面可在窗口底部的 🌐 切换为简体中文・繁體中文・English・日本語。
+> Translations live in `tools/i18n/messages.json` (build with `python tools/i18n/build.py`, list untranslated strings with
+> `python tools/i18n/missing.py`).
 
 ## ダウンロード
 
-[リリースのページ](https://github.com/Oz-Co-two/AutoNotePlotter/releases/latest) から `AutoNotePlotter-<版>-win-x64.zip` をダウンロードして展開し、
+[リリースのページ](https://github.com/Akiraoo/AutoNotePlotter-i18n/releases/latest) から `AutoNotePlotter-<版>-win-x64.zip` をダウンロードして展開し、
 `AutoNotePlotter.exe` を開きます。初めて開いた時に、曲を理解するための部品（GPU 版 約 3.1GB・CPU 版 約 0.5GB）をダウンロードします。
 新しい版はアプリの中で更新できます。
 

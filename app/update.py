@@ -74,7 +74,8 @@ from automap import version as app_version  # noqa: E402
 
 # GitHub のリポジトリ（2026-11-03 に利用者と決めた・変えると配った版が見つけられなくなる。まだリリースが無い間は 404＝起動時は黙る・「更新を確認」は
 # 「配布元にまだ更新の情報がありません」）
-REPO = 'Oz-Co-two/AutoNotePlotter'
+# 多言語版（日本語・简体中文・繁體中文・English）はこのフォークのリリースから更新する（2026-11-18・v1.1.0 から）
+REPO = 'Akiraoo/AutoNotePlotter-i18n'
 RELEASES = f'https://github.com/{REPO}/releases/'
 UPDATE_PATH = 'latest/download/update.json'
 ZIP_PATH = 'download/{tag}/{name}'

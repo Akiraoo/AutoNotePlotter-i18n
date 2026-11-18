@@ -162,6 +162,11 @@ https://github.com/Oz-Co-two/nlm-oz-co2 ）のプロジェクトファイル（.
   （1 コマンド・`run/report.md`）。**配布物でだけ違う所（設定・作業の場所・同梱物・部品・更新）を直したら、テストに加えて `dev` か `release` で確かめる**。
   `release` は窓のアプリ（起動用の exe → WebView2）も起こし、CDP でつないで左下の欄のリプレイを確かめる（`window_replay`・書き出したデモ曲の合成リプレイ・#rstest=real・本物のマウスの ▶ で WebAudio が running・2026-11-15・画面に窓が出る・`--no-window-replay` で飛ばす）。
   同梱物・開発の場所を読む所を足す時は `config.app_root()`／`distributed()` を通す（`ROOT` で直に読むとふりをすり抜ける）。
+- `app/static/js/i18n.js` — 表示の言語（日本語・简体中文・繁體中文・English・画面の下の 🌐・設定の `ui_prefs` の `automap-lang`）。
+  コードの字は日本語のまま、画面に出た字（字の節・title・placeholder・canvas の fillText・alert/confirm）を辞書で訳す（そのまま→
+  `{0}` の型→行ごと→知っている切れ端）。辞書の元は `tools/i18n/messages.json`（ja・en・zh-Hans・繁體は OpenCC の s2twp で作る）→
+  `python tools/i18n/build.py` が `app/static/i18n/<言語>.json` を書く。**画面の字を足したら `tools/i18n/missing.py` で訳の無い字を見て
+  messages.json に足す**。曲名など訳さない所は `translate="no"`（songpick.js）。NLM で打つ「固定」等の名前は訳さずそのまま。
 - `app/setup.py`＋`static/js/setup.js` — 準備と設定（初回の設定画面・起動のたびに作業の場所・音を分ける部品・型のライブラリが揃って
   いるかを確かめ、足りなければ窓＝続きから入れ直す・docs/アプリ仕様.md 21 節）。取り込みの音源分離の Python は `setup.sep_runner`
   （入れたパック＝tools/sep_install.py・開発の PC は .venv-sep）。確かめは `#sutest`（=first・=resume・=running・=ok・=dev）。
