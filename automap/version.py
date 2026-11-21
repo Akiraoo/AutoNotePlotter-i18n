@@ -14,9 +14,12 @@
   tools/dist/build_embed.py の --version（確かめ用）は配布物の中のこのファイルの VERSION の行を書き換える＝その行の形（行の頭の VERSION ＝ 引用符で囲んだ版）を変えない。
 """
 
-VERSION = 'v1.1.0'
+VERSION = 'v1.1.1'
 
 CHANGES = [
+    ('v1.1.1', [
+        '中国語（简体中文・繁體中文）の訳を全部見直した',
+    ]),
     ('v1.1.0', [
         '画面の言語を切り替えられるように（日本語・简体中文・繁體中文・English・画面の下の 🌐）',
         'アプリの更新は多言語版のリリース（Akiraoo/AutoNotePlotter-i18n）から',
